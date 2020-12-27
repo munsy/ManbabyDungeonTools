@@ -1,17 +1,17 @@
-local MDT = MDT
-local L = MDT.L
+local NDT = NDT
+local L = NDT.L
 local db
 local tonumber,tinsert,slen,pairs,ipairs,tostring,next,type,sformat,tremove,twipe = tonumber,table.insert,string.len,pairs,ipairs,tostring,next,type,string.format,table.remove,table.wipe
 local UnitName,UnitGUID,UnitCreatureType,UnitHealthMax,UnitLevel = UnitName,UnitGUID,UnitCreatureType,UnitHealthMax,UnitLevel
 
 local points = {}
 
-function MDT:POI_CreateFramePools()
-    MDT.poi_framePools = MDT.poi_framePools or CreateFramePoolCollection()
-    MDT.poi_framePools:CreatePool("Button", MDT.main_frame.mapPanelFrame, "MapLinkPinTemplate")
-    MDT.poi_framePools:CreatePool("Button", MDT.main_frame.mapPanelFrame, "DeathReleasePinTemplate")
-    MDT.poi_framePools:CreatePool("Button", MDT.main_frame.mapPanelFrame, "VignettePinTemplate")
-    MDT.poi_framePools:CreatePool("Frame", MDT.main_frame.mapPanelFrame, "MDTAnimatedLineTemplate")
+function NDT:POI_CreateFramePools()
+    NDT.poi_framePools = NDT.poi_framePools or CreateFramePoolCollection()
+    NDT.poi_framePools:CreatePool("Button", NDT.main_frame.mapPanelFrame, "MapLinkPinTemplate")
+    NDT.poi_framePools:CreatePool("Button", NDT.main_frame.mapPanelFrame, "DeathReleasePinTemplate")
+    NDT.poi_framePools:CreatePool("Button", NDT.main_frame.mapPanelFrame, "VignettePinTemplate")
+    NDT.poi_framePools:CreatePool("Frame", NDT.main_frame.mapPanelFrame, "NDTAnimatedLineTemplate")
 end
 
 --devMode
@@ -24,24 +24,24 @@ local function POI_SetDevOptions(frame,poi)
             self.isMoving = true
         end
         if button == "RightButton" then
-            local pois = MDT.mapPOIs[db.currentDungeonIdx][MDT:GetCurrentSubLevel()]
+            local pois = NDT.mapPOIs[db.currentDungeonIdx][NDT:GetCurrentSubLevel()]
             tremove(pois,self.poiIdx)
-            MDT:UpdateMap()
+            NDT:UpdateMap()
         end
     end)
     frame:SetScript("OnMouseUp", function(self, button)
         if button == "LeftButton" and self.isMoving then
             self.isMoving = false
             self:StopMovingOrSizing()
-            local newx,newy = MDT:GetCursorPosition()
-            local scale = MDT:GetScale()
+            local newx,newy = NDT:GetCursorPosition()
+            local scale = NDT:GetScale()
             newx = newx*(1/scale)
             newy = newy*(1/scale)
-            local pois = MDT.mapPOIs[db.currentDungeonIdx][MDT:GetCurrentSubLevel()]
+            local pois = NDT.mapPOIs[db.currentDungeonIdx][NDT:GetCurrentSubLevel()]
             pois[self.poiIdx].x = newx
             pois[self.poiIdx].y = newy
             self:ClearAllPoints()
-            MDT:UpdateMap()
+            NDT:UpdateMap()
         end
     end)
     frame:SetScript("OnClick",nil)
@@ -86,13 +86,13 @@ local function POI_SetOptions(frame,type,poi,homeSublevel)
         frame.HighlightTexture:SetAtlas(directionToAtlas[poi.direction])
         frame.Texture:SetAtlas(directionToAtlas[poi.direction])
         frame:SetScript("OnClick",function()
-            MDT:SetCurrentSubLevel(poi.target)
-            MDT:UpdateMap()
-            MDT:ZoomMapToDefault()
+            NDT:SetCurrentSubLevel(poi.target)
+            NDT:UpdateMap()
+            NDT:ZoomMapToDefault()
         end)
         frame:SetScript("OnEnter",function()
             GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-            GameTooltip:AddLine(MDT:GetDungeonSublevels()[db.currentDungeonIdx][poi.target], 1, 1, 1, 1)
+            GameTooltip:AddLine(NDT:GetDungeonSublevels()[db.currentDungeonIdx][poi.target], 1, 1, 1, 1)
             if db.devMode then GameTooltip:AddLine(frame.poi.connectionIndex, 1, 1, 1, 1) end
             GameTooltip:Show()
             frame.HighlightTexture:Show()
@@ -121,7 +121,7 @@ local function POI_SetOptions(frame,type,poi,homeSublevel)
             frame.textString:SetJustifyH("CENTER")
             frame.textString:SetTextColor(0.5, 1, 0, 1)
         end
-        local scale = MDT:GetScale()
+        local scale = NDT:GetScale()
         frame.textString:SetFontObject("GameFontNormal")
         frame.textString:SetFont(frame.textString:GetFont(),5*poiScale*scale,"OUTLINE")
         frame.textString:SetPoint("BOTTOM",frame,"BOTTOM", 0, 4*scale)
@@ -129,17 +129,17 @@ local function POI_SetOptions(frame,type,poi,homeSublevel)
         frame:SetScript("OnMouseUp",function(self,button)
             if button == "RightButton" then
                 --reset npc location
-                MDT:GetRiftOffsets()[self.npcId]=nil
-                MDT:UpdateMap()
-                if MDT.liveSessionActive and MDT:GetCurrentPreset().uid == MDT.livePresetUID then
-                    MDT:LiveSession_SendCorruptedPositions(MDT:GetCurrentPreset().value.riftOffsets)
+                NDT:GetRiftOffsets()[self.npcId]=nil
+                NDT:UpdateMap()
+                if NDT.liveSessionActive and NDT:GetCurrentPreset().uid == NDT.livePresetUID then
+                    NDT:LiveSession_SendCorruptedPositions(NDT:GetCurrentPreset().value.riftOffsets)
                 end
             end
             if button == "LeftButton" then
-                local _, connections = MDT:FindConnectedDoor(frame.npcId,1)
+                local _, connections = NDT:FindConnectedDoor(frame.npcId,1)
                 if connections then
-                    MDT:SetCurrentSubLevel(connections[#connections].target)
-                    MDT:UpdateMap()
+                    NDT:SetCurrentSubLevel(connections[#connections].target)
+                    NDT:UpdateMap()
                 end
             end
         end)
@@ -150,7 +150,7 @@ local function POI_SetOptions(frame,type,poi,homeSublevel)
             GameTooltip:AddLine(L["Right-Click to reset NPC position"],1,1,1)
             frame.HighlightTexture:Show()
             --highlight associated npc
-            local blips = MDT:GetDungeonEnemyBlips()
+            local blips = NDT:GetDungeonEnemyBlips()
             if frame.isSpire then
                 for _,blip in pairs(blips) do
                     if blip.data.id == poi.npcId then
@@ -162,7 +162,7 @@ local function POI_SetOptions(frame,type,poi,homeSublevel)
                             blipFrame = blip
                             blipFrame.fontstring_Text1:Show()
                             --display animated line between poi and npc frame
-                            frame.animatedLine = MDT:ShowAnimatedLine(MDT.main_frame.mapPanelFrame,frame,blipFrame,nil,nil,nil,nil,nil,not frame.isSpire,frame.animatedLine)
+                            frame.animatedLine = NDT:ShowAnimatedLine(NDT.main_frame.mapPanelFrame,frame,blipFrame,nil,nil,nil,nil,nil,not frame.isSpire,frame.animatedLine)
                             blipFrame.animatedLine = frame.animatedLine
                             break
                         end
@@ -170,13 +170,13 @@ local function POI_SetOptions(frame,type,poi,homeSublevel)
                 end
             end
 
-            local connectedDoor, connections = MDT:FindConnectedDoor(frame.npcId,1)
+            local connectedDoor, connections = NDT:FindConnectedDoor(frame.npcId,1)
             if connectedDoor then
                 if frame.isSpire then
-                    frame.animatedLine = MDT:ShowAnimatedLine(MDT.main_frame.mapPanelFrame,frame,connectedDoor,nil,nil,nil,nil,nil,not frame.isSpire,frame.animatedLine)
+                    frame.animatedLine = NDT:ShowAnimatedLine(NDT.main_frame.mapPanelFrame,frame,connectedDoor,nil,nil,nil,nil,nil,not frame.isSpire,frame.animatedLine)
                 end
-                local sublevelName = MDT:GetSublevelName(nil,connections[#connections].target)
-                local npcName = MDT:GetNPCNameById(frame.npcId)
+                local sublevelName = NDT:GetSublevelName(nil,connections[#connections].target)
+                local npcName = NDT:GetNPCNameById(frame.npcId)
                 GameTooltip:AddLine("\n"..string.format(L["%s is in sublevel: %s"],npcName,sublevelName),1,1,1)
                 GameTooltip:AddLine(string.format(L["Click to go to %s"],sublevelName),1,1,1)
             end
@@ -189,11 +189,11 @@ local function POI_SetOptions(frame,type,poi,homeSublevel)
                 blipFrame.fontstring_Text1:Hide()
             end
             if frame.isSpire then
-                MDT:HideAnimatedLine(frame.animatedLine)
+                NDT:HideAnimatedLine(frame.animatedLine)
             end
         end)
         --check expanded status
-        if MDT:IsNPCInPulls(poi) then
+        if NDT:IsNPCInPulls(poi) then
             frame.Texture:SetSize(10*poiScale,10*poiScale)
             frame.Texture:SetAtlas("poi-rift1")
             frame.HighlightTexture:SetSize(10*poiScale,10*poiScale)
@@ -466,7 +466,7 @@ local function POI_SetOptions(frame,type,poi,homeSublevel)
         end)
     end
     --fullscreen sizes
-    local scale = MDT:GetScale()
+    local scale = NDT:GetScale()
     frame:SetSize(frame:GetWidth()*scale,frame:GetHeight()*scale)
     if frame.Texture then frame.Texture:SetSize(frame.Texture:GetWidth()*scale,frame.Texture:GetHeight()*scale) end
     if frame.HighlightTexture then frame.HighlightTexture:SetSize(frame.HighlightTexture:GetWidth()*scale,frame.HighlightTexture:GetHeight()*scale) end
@@ -476,28 +476,28 @@ end
 
 ---POI_HideAllPoints
 ---Used to hide all POIs during scaling changes to the map
-function MDT:POI_HideAllPoints()
+function NDT:POI_HideAllPoints()
     for _,poiFrame in pairs(points) do
         poiFrame:Hide()
     end
 end
 
 ---POI_UpdateAll
-function MDT:POI_UpdateAll()
+function NDT:POI_UpdateAll()
     twipe(points)
-    db = MDT:GetDB()
-    local framePools = MDT.poi_framePools
+    db = NDT:GetDB()
+    local framePools = NDT.poi_framePools
     framePools:GetPool("MapLinkPinTemplate"):ReleaseAll()
     framePools:GetPool("DeathReleasePinTemplate"):ReleaseAll()
     framePools:GetPool("VignettePinTemplate"):ReleaseAll()
-    if not MDT.mapPOIs[db.currentDungeonIdx] then return end
-    local currentSublevel = MDT:GetCurrentSubLevel()
-    local pois = MDT.mapPOIs[db.currentDungeonIdx][currentSublevel]
+    if not NDT.mapPOIs[db.currentDungeonIdx] then return end
+    local currentSublevel = NDT:GetCurrentSubLevel()
+    local pois = NDT.mapPOIs[db.currentDungeonIdx][currentSublevel]
     if not pois then return end
-    local preset = MDT:GetCurrentPreset()
-    local teeming = MDT:IsPresetTeeming(preset)
-    local scale = MDT:GetScale()
-    local week = MDT:GetEffectivePresetWeek(preset)
+    local preset = NDT:GetCurrentPreset()
+    local teeming = NDT:IsPresetTeeming(preset)
+    local scale = NDT:GetScale()
+    local week = NDT:GetEffectivePresetWeek(preset)
     for poiIdx,poi in pairs(pois) do
         if (not (poi.type == "nyalothaSpire" and (db.currentSeason ~= 4 or db.currentDifficulty<10)))
             and ((not poi.weeks) or poi.weeks[week])
@@ -510,7 +510,7 @@ function MDT:POI_UpdateAll()
             poiFrame.x = poi.x
             poiFrame.y = poi.y
             poiFrame:ClearAllPoints()
-            poiFrame:SetPoint("CENTER", MDT.main_frame.mapPanelTile1,"TOPLEFT",poi.x*scale,poi.y*scale)
+            poiFrame:SetPoint("CENTER", NDT.main_frame.mapPanelTile1,"TOPLEFT",poi.x*scale,poi.y*scale)
             if not poiFrame.defaultHidden or db.devMode then poiFrame:Show() end
             if not teeming and poiFrame.teeming then
                 poiFrame:Hide()
@@ -558,8 +558,8 @@ local function animateLine(self, elapsed)
             t = t - 1
         end
         tX, tY = getPointAlongALine(self:GetParent(),self.frameOneX,self.frameOneY,self.frameTwoX,self.frameTwoY,t)
-        tex:SetPoint("TOPLEFT", MDT.main_frame.mapPanelTile1,"TOPLEFT",tX - (self.sizeX / 2),tY - (self.sizeY / 2))
-        tex:SetPoint("BOTTOMRIGHT", MDT.main_frame.mapPanelTile1,"TOPLEFT",tX + (self.sizeX / 2),tY + (self.sizeY / 2))
+        tex:SetPoint("TOPLEFT", NDT.main_frame.mapPanelTile1,"TOPLEFT",tX - (self.sizeX / 2),tY - (self.sizeY / 2))
+        tex:SetPoint("BOTTOMRIGHT", NDT.main_frame.mapPanelTile1,"TOPLEFT",tX + (self.sizeX / 2),tY + (self.sizeY / 2))
         tex:SetPoint("CENTER",tX, tY)
         tex:SetRotation(rotation)
         tex:SetVertexColor(self.color[1],self.color[2],self.color[3],self.color[4])
@@ -579,18 +579,18 @@ local function animateLine(self, elapsed)
 end
 
 local function createAnimatedLine(parent)
-    local animatedLine = MDT.poi_framePools:Acquire("MDTAnimatedLineTemplate")
+    local animatedLine = NDT.poi_framePools:Acquire("NDTAnimatedLineTemplate")
     animatedLine:Show()
     animatedLine.phase = 0
     animatedLine.frames = {}
     return animatedLine
 end
 
-function MDT:ShowAnimatedLine(parent, frame1, frame2, sizeX, sizeY, gap, color, speed, selected, animatedLine)
+function NDT:ShowAnimatedLine(parent, frame1, frame2, sizeX, sizeY, gap, color, speed, selected, animatedLine)
     if not (frame1 and frame2 and (not frame1:IsForbidden()) and (not frame1:IsForbidden())) then
         return nil
     end
-    texturePool = texturePool or CreateTexturePool(MDT.main_frame.mapPanelFrame ,"OVERLAY",7,nil)
+    texturePool = texturePool or CreateTexturePool(NDT.main_frame.mapPanelFrame ,"OVERLAY",7,nil)
     animatedLine = animatedLine or createAnimatedLine(parent)
     animatedLine.frame1 = frame1
     animatedLine.frame2 = frame2
@@ -601,8 +601,8 @@ function MDT:ShowAnimatedLine(parent, frame1, frame2, sizeX, sizeY, gap, color, 
     animatedLine.color = color and color or {1,0,1,0.8,0.2} --corrupted color
     if selected then animatedLine.color = {0.5,1,0.1,1} end
 
-    local scale = MDT:GetScale()
-    local mapSizex,mapSizey = MDT:GetDefaultMapPanelSize()
+    local scale = NDT:GetScale()
+    local mapSizex,mapSizey = NDT:GetDefaultMapPanelSize()
     animatedLine.frameOneX = ((mapSizex/2)+frame1.x)*scale
     animatedLine.frameOneY = ((mapSizey/2)+frame1.y)*scale
     animatedLine.frameTwoX = ((mapSizex/2)+(frame2.adjustedX or frame2.x))*scale
@@ -615,8 +615,8 @@ function MDT:ShowAnimatedLine(parent, frame1, frame2, sizeX, sizeY, gap, color, 
     return animatedLine
 end
 
-function MDT:KillAllAnimatedLines()
-    local linePool = self.poi_framePools:GetPool("MDTAnimatedLineTemplate")
+function NDT:KillAllAnimatedLines()
+    local linePool = self.poi_framePools:GetPool("NDTAnimatedLineTemplate")
     local _,activeLines = linePool:EnumerateActive()
     for animatedLine,_ in pairs(activeLines) do
         animatedLine:SetScript("onUpdate",nil)
@@ -637,40 +637,40 @@ function MDT:KillAllAnimatedLines()
 end
 
 ---draws all lines from active npcs to spires/doors
-function MDT:DrawAllAnimatedLines()
+function NDT:DrawAllAnimatedLines()
     local week = self:GetEffectivePresetWeek()
-    for _,blip in pairs(MDT:GetDungeonEnemyBlips()) do
+    for _,blip in pairs(NDT:GetDungeonEnemyBlips()) do
         if not blip:IsShown() and blip.data.corrupted then
-            MDT:HideAnimatedLine(blip.animatedLine)
+            NDT:HideAnimatedLine(blip.animatedLine)
         elseif blip.data.corrupted and blip.selected then
             local connectedFrame
-            local _,active = MDT.poi_framePools:GetPool("VignettePinTemplate"):EnumerateActive()
+            local _,active = NDT.poi_framePools:GetPool("VignettePinTemplate"):EnumerateActive()
             for poiFrame,_ in pairs(active) do
                 if poiFrame.spireIndex and poiFrame.npcId and poiFrame.npcId == blip.data.id then
                     connectedFrame = poiFrame
                     break
                 end
             end
-            local connectedDoor = MDT:FindConnectedDoor(blip.data.id)
+            local connectedDoor = NDT:FindConnectedDoor(blip.data.id)
             connectedFrame = connectedDoor or connectedFrame
-            blip.animatedLine = MDT:ShowAnimatedLine(MDT.main_frame.mapPanelFrame,connectedFrame,blip,nil,nil,nil,nil,nil,blip.selected)
+            blip.animatedLine = NDT:ShowAnimatedLine(NDT.main_frame.mapPanelFrame,connectedFrame,blip,nil,nil,nil,nil,nil,blip.selected)
             blip.spireFrame = connectedFrame
             connectedFrame.animatedLine = blip.animatedLine
         end
     end
     --draw lines from active spires to doors when their associated npc is dragged into other sublevel
-    local _,activeSpires = MDT.poi_framePools:GetPool("VignettePinTemplate"):EnumerateActive()
+    local _,activeSpires = NDT.poi_framePools:GetPool("VignettePinTemplate"):EnumerateActive()
     for poiFrame,_ in pairs(activeSpires) do
         if poiFrame.spireIndex and poiFrame.npcId and not poiFrame.isSpire and not poiFrame.animatedLine then
-            local connectedDoor = MDT:FindConnectedDoor(poiFrame.npcId,1)
+            local connectedDoor = NDT:FindConnectedDoor(poiFrame.npcId,1)
             if connectedDoor then
-                poiFrame.animatedLine = MDT:ShowAnimatedLine(MDT.main_frame.mapPanelFrame,poiFrame,connectedDoor,nil,nil,nil,nil,nil,not poiFrame.isSpire)
+                poiFrame.animatedLine = NDT:ShowAnimatedLine(NDT.main_frame.mapPanelFrame,poiFrame,connectedDoor,nil,nil,nil,nil,nil,not poiFrame.isSpire)
             end
         end
     end
 end
 
-function MDT:HideAnimatedLine(animatedLine)
+function NDT:HideAnimatedLine(animatedLine)
     if not animatedLine then return end
     for i=1,#animatedLine.frames do
         animatedLine.frames[i]:ClearAllPoints()
@@ -679,11 +679,11 @@ function MDT:HideAnimatedLine(animatedLine)
     animatedLine:Hide()
 end
 
-function MDT:FindConnectedDoor(npcId, numConnection)
+function NDT:FindConnectedDoor(npcId, numConnection)
     local riftOffsets = self:GetRiftOffsets()
     local connection = riftOffsets and riftOffsets[npcId] and riftOffsets[npcId].connections and riftOffsets[npcId].connections[numConnection or #riftOffsets[npcId].connections] or nil
     if connection then
-        local _,activeDoors = MDT.poi_framePools:GetPool("MapLinkPinTemplate"):EnumerateActive()
+        local _,activeDoors = NDT.poi_framePools:GetPool("MapLinkPinTemplate"):EnumerateActive()
         for poiFrame,_ in pairs(activeDoors) do
             if poiFrame.poi and poiFrame.poi.connectionIndex == connection.connectionIndex then
                 return poiFrame,riftOffsets[npcId].connections

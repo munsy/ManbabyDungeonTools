@@ -1,5 +1,5 @@
-local _, MDT = ...
-local L = MDT.L
+local _, NDT = ...
+local L = NDT.L
 local db
 local twipe,tinsert,tremove,tgetn,CreateFrame = table.wipe,table.insert,table.remove,table.getn,CreateFrame
 
@@ -145,7 +145,7 @@ local texturePool = {}
 local function getTexture()
     local size = tgetn(texturePool)
     if size == 0 then
-        return MDT.main_frame.mapPanelFrame:CreateTexture(nil, "OVERLAY")
+        return NDT.main_frame.mapPanelFrame:CreateTexture(nil, "OVERLAY")
     else
         local tex = texturePool[size]
         tremove(texturePool, size)
@@ -163,14 +163,14 @@ local function releaseTexture(tex)
 end
 
 ---ReleaseAllActiveTextures
-function MDT:ReleaseHullTextures()
+function NDT:ReleaseHullTextures()
     for k,tex in pairs(activeTextures) do
         releaseTexture(tex)
     end
     twipe(activeTextures)
 end
 
-function MDT:DrawHullCircle(x, y, size, color, layer, layerSublevel)
+function NDT:DrawHullCircle(x, y, size, color, layer, layerSublevel)
     local circle = getTexture()
     circle:SetDrawLayer(layer, layerSublevel)
     circle:SetTexture("Interface\\AddOns\\ManbabyDungeonTools\\Textures\\Circle_White")
@@ -178,37 +178,37 @@ function MDT:DrawHullCircle(x, y, size, color, layer, layerSublevel)
     circle:SetWidth(1.1*size)
     circle:SetHeight(1.1*size)
     circle:ClearAllPoints()
-    circle:SetPoint("CENTER", MDT.main_frame.mapPanelTile1,"TOPLEFT",x,y)
+    circle:SetPoint("CENTER", NDT.main_frame.mapPanelTile1,"TOPLEFT",x,y)
     circle:Show()
     tinsert(activeTextures,circle)
 end
 
-function MDT:DrawHullLine(x, y, a, b, size, color, smooth, layer, layerSublevel, lineFactor)
+function NDT:DrawHullLine(x, y, a, b, size, color, smooth, layer, layerSublevel, lineFactor)
     local line = getTexture()
     line:SetTexture("Interface\\AddOns\\ManbabyDungeonTools\\Textures\\Square_White")
     line:SetVertexColor(color.r,color.g,color.b,color.a)
-    DrawLine(line, MDT.main_frame.mapPanelTile1, x, y, a, b, size, lineFactor and lineFactor or 1.1,"TOPLEFT")
+    DrawLine(line, NDT.main_frame.mapPanelTile1, x, y, a, b, size, lineFactor and lineFactor or 1.1,"TOPLEFT")
     line:SetDrawLayer(layer, layerSublevel)
     line:Show()
     line.coords = {x,y,a,b}
     tinsert(activeTextures,line)
     if smooth == true  then
-        MDT:DrawHullCircle(x,y,size,color,layer,layerSublevel)
+        NDT:DrawHullCircle(x,y,size,color,layer,layerSublevel)
     end
 end
 
-function MDT:DrawHull(vertices,pullColor)
+function NDT:DrawHull(vertices,pullColor)
 
     local hull = convex_hull(vertices)
     if hull and hull[#hull] and #hull>2 then
 
-        hull = expand_polygon(hull,7*(MDT.scaleMultiplier[MDT:GetDB().currentDungeonIdx] or 1))
+        hull = expand_polygon(hull,7*(NDT.scaleMultiplier[NDT:GetDB().currentDungeonIdx] or 1))
         --hull = smooth_contour(hull,10)
         for i = 1, #hull do
             local a = hull[i]
             local b = hull[1]
             if i ~= #hull then b = hull[i+1] end
-            MDT:DrawHullLine(a[1], a[2], b[1], b[2], 3*(MDT.scaleMultiplier[MDT:GetDB().currentDungeonIdx] or 1), pullColor, true, "ARTWORK", -8, 1)
+            NDT:DrawHullLine(a[1], a[2], b[1], b[2], 3*(NDT.scaleMultiplier[NDT:GetDB().currentDungeonIdx] or 1), pullColor, true, "ARTWORK", -8, 1)
         end
     end
 end
@@ -218,7 +218,7 @@ local function getPullVertices(p,blips)
     for enemyIdx,clones in pairs(p) do
         if tonumber(enemyIdx) then
             for _,cloneIdx in pairs(clones) do
-                if MDT:IsCloneIncluded(enemyIdx, cloneIdx) then
+                if NDT:IsCloneIncluded(enemyIdx, cloneIdx) then
                     for _,blip in pairs(blips) do
                         if (blip.enemyIdx == enemyIdx) and (blip.cloneIdx == cloneIdx) then
                             local endPoint, endRelativeTo, endRelativePoint, endX, endY = blip:GetPoint()
@@ -233,22 +233,22 @@ local function getPullVertices(p,blips)
     return vertices
 end
 
-function MDT:DrawAllHulls(pulls)
-    MDT:ReleaseHullTextures()
-    local preset = MDT:GetCurrentPreset()
-    local blips = MDT:GetDungeonEnemyBlips()
+function NDT:DrawAllHulls(pulls)
+    NDT:ReleaseHullTextures()
+    local preset = NDT:GetCurrentPreset()
+    local blips = NDT:GetDungeonEnemyBlips()
     local vertices
     pulls = pulls or preset.value.pulls
     for pullIdx,p in pairs(pulls) do
-        local r,g,b = MDT:DungeonEnemies_GetPullColor(pullIdx,pulls)
+        local r,g,b = NDT:DungeonEnemies_GetPullColor(pullIdx,pulls)
         vertices = getPullVertices(p,blips)
-        MDT:DrawHull(vertices,{r=r, g=g, b=b, a=1})
+        NDT:DrawHull(vertices,{r=r, g=g, b=b, a=1})
     end
 end
 
-function MDT:FindClosestPull(x,y)
-    local preset = MDT:GetCurrentPreset()
-    local blips = MDT:GetDungeonEnemyBlips()
+function NDT:FindClosestPull(x,y)
+    local preset = NDT:GetCurrentPreset()
+    local blips = NDT:GetDungeonEnemyBlips()
     local vertices,hull,center
     local centers = {}
     --1. construct all hulls of pulls in this sublevel
