@@ -1,13 +1,10 @@
-This is a fork of ManbabyDungeonTools, which itself is/was a fork of MythicDungeonTools, which was originally called MethodDungeonTools until Josh the Rapist forced nnogie to change the name. I changed the name from Manbaby not because the name isn't good, or because I want credit, but because I'm afraid that if Josh finds out he'll try to touch the addon in its naughty places.
-
 ## NomadicDungeonTools
 
-![Main Window](https://i.imgur.com/HFzS0Xl.jpg 'x')
-
-Manbaby Dungeon Tools is a Mythic+ Dungeon Planner AddOn which helps you perfectly plan out your strategies and pull patterns in Mythic+ Dungeons. Every NPC in every Shadowlands dungeon has been mapped out and can be viewed on an interactive map. Furthermore you have the option to select these enemies and devide the enemies you wish to defeat into pulls. While going through the dungeon and selecting more enemies the progress bar will fill up and you will know exactly which enemies to kill to reach perfect enemy forces count. When done with selecting enemies the reoute can be exported and shared via a paste string or send to party members ingame so other users of the AddOn can see what you have planned for the dungeon.
+This is a fork of ManbabyDungeonTools, which itself is/was a fork of MythicDungeonTools, which was originally called MethodDungeonTools until Josh the Rapist inadvertently forced nnogie to change the name. I changed the name from 'Manbaby' not because the rename isn't good (it's great <3 <3 <3), or because I want credit for adding my own stuff to it, but simply because I'm afraid that if Josh finds out about it he'll try to touch the addon in its naughty places.
 
 ## Features
 
+- Not managed by a raging narcissist who will spontaneously throw a fit and move the addon behind a paywall
 - Maps for all Shadowlands dungeons
 - NPC positions for all dungeons
 - Patrol paths for all patroling NPCs
@@ -25,4 +22,5 @@ Manbaby Dungeon Tools is a Mythic+ Dungeon Planner AddOn which helps you perfect
 - /nomadicdungeontools
 - /ndt
 
-Download on curseforge: https://www.curseforge.com/wow/addons/mythic-dungeon-tools XD XD XD XD XD
+## License
+GPL 2.0 which means if I EVER decide to be a fucking douchebag and put the mod behind a paywall, you should promptly fork this code and make your own rehost of it. You should also make sure Blizzard knows about my douchebagginess so I'll get a C&D sent to me.
