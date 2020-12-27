@@ -51,7 +51,7 @@ unique_UiMapIDs = mobHits.UiMapID.unique().tolist()
 #   criteria: contains information about which criteria a given npc triggers when dying in a mythic dungeon
 #   criteriatree: contains information about which criteria from the above list is triggered when count is
 #        attributed in a mythic dungeon as well as the amount of count attributed
-#   journalencounter: contains the encounterID and instanceID for bosses which MDT stores
+#   journalencounter: contains the encounterID and instanceID for bosses which NDT stores
 wowtools_files = ["uimapassignment", "map", "criteria", "criteriatree", "journalencounter"]
 f = {}
 for file in wowtools_files:
@@ -94,14 +94,14 @@ def convert_to_relative_coord(df):  # Converts mob position to relative position
     return pd.Series([x, y])
 
 
-def convert_to_MDT_coord(df):       # Converts mob position to coordinates used for the MDT map. Returns x,y as series
-    # MDT INFO FOR SCALE = 1
+def convert_to_NDT_coord(df):       # Converts mob position to coordinates used for the NDT map. Returns x,y as series
+    # NDT INFO FOR SCALE = 1
     # WIDTH = 840
     # HEIGHT = 555
     # HEIGHT IS NEGATIVE
     # 0,0 IS TOP LEFT CORNER
     extent = get_map_extent(df.UiMapID)
-    # MDT width and height at scale = 1
+    # NDT width and height at scale = 1
     width = 840
     height = 555
     x = float((df.xcoord - extent.xmin) / (extent.xmax - extent.xmin))
@@ -126,9 +126,9 @@ def UiMapID_to_sublevel(UiMapID):
     return unique_UiMapIDs.index(UiMapID) + 1
 
 
-# Converts combat log coordinates to MDT coordinates
-mobHits[["MDTx", "MDTy"]] = mobHits.apply(convert_to_MDT_coord, axis=1)
-# Transforms UiMapID into MDT sublevel
+# Converts combat log coordinates to NDT coordinates
+mobHits[["NDTx", "NDTy"]] = mobHits.apply(convert_to_NDT_coord, axis=1)
+# Transforms UiMapID into NDT sublevel
 # Assigns 1 to the first UiMapID seen in the log, 2 to the second and so on
 # Move through the dungeon sublevels in the same order as the sublevel-dropdown to avoid errors
 mobHits["sublevel"] = [UiMapID_to_sublevel(UiMapID) for UiMapID in mobHits.UiMapID]
@@ -206,7 +206,7 @@ regular_count, total_count = get_dungeon_count(boss_names)
 print("Mapping Initiated [", end="")
 
 npc_locale_en = ""
-table_output = "MDT.dungeonEnemies[dungeonIndex] = {\n"
+table_output = "NDT.dungeonEnemies[dungeonIndex] = {\n"
 
 for unique_npc_index, unique_npc_name in enumerate(mobHits.destName.unique()):
     unique_npc_index += 1  # Lua is stupid
@@ -214,8 +214,8 @@ for unique_npc_index, unique_npc_name in enumerate(mobHits.destName.unique()):
     for npc_index, npc in enumerate(mobHits[mobHits.destName == unique_npc_name].itertuples()):
         npc_index += 1  # Lua is stupid
         table_output += f'\t\t\t[{npc_index}] = {{\n'
-        table_output += f'\t\t\t\t["x"] = {npc.MDTx};\n'
-        table_output += f'\t\t\t\t["y"] = {npc.MDTy};\n'
+        table_output += f'\t\t\t\t["x"] = {npc.NDTx};\n'
+        table_output += f'\t\t\t\t["y"] = {npc.NDTy};\n'
         table_output += f'\t\t\t\t["sublevel"] = {npc.sublevel};\n'
         if npc.destGUID in inspiring_GUID_list:
             table_output += f'\t\t\t\t["inspiring"] = true;\n'
@@ -246,7 +246,7 @@ for unique_npc_index, unique_npc_name in enumerate(mobHits.destName.unique()):
     table_output += '\t};\n'
 table_output += '};'
 print("] Mapping Completed")
-table_output += f"\nMDT.dungeonTotalCount[dungeonIndex] = {{normal={total_count},teeming=1000,teemingEnabled=true}}\n\n"
+table_output += f"\nNDT.dungeonTotalCount[dungeonIndex] = {{normal={total_count},teeming=1000,teemingEnabled=true}}\n\n"
 
 # Checking locale_dump.txt and adding new npcs names to output
 # Read file locale_dump if it exists otherwise set locale_file to []

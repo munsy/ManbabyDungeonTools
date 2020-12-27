@@ -1,8 +1,8 @@
 if not(GetLocale() == "frFR") then
   return
 end
-local addonName, MDT = ...
-local L = MDT.L
+local addonName, NDT = ...
+local L = NDT.L
 L = L or {}
 
---@localization(locale="frFR", format="lua_additive_table", namespace="MDT", handle-subnamespaces="none")@
+--@localization(locale="frFR", format="lua_additive_table", namespace="NDT", handle-subnamespaces="none")@

@@ -1,11 +1,11 @@
 <Bindings>
-    <Binding name="MDTTOGGLE" runOnUp="false" category="Manbaby Dungeon Tools">
-      MDT:ShowInterface()
+    <Binding name="NDTTOGGLE" runOnUp="false" category="Nomadic Dungeon Tools">
+      NDT:ShowInterface()
     </Binding>
-    <Binding name="MDTNPC" runOnUp="false" category="Manbaby Dungeon Tools">
-        MDT:AddCloneAtCursorPosition()
+    <Binding name="NDTNPC" runOnUp="false" category="Nomadic Dungeon Tools">
+        NDT:AddCloneAtCursorPosition()
     </Binding>
-    <Binding name="MDTWAYPOINT" runOnUp="false" category="Manbaby Dungeon Tools">
-        MDT:AddPatrolWaypointAtCursorPosition()
+    <Binding name="NDTWAYPOINT" runOnUp="false" category="Nomadic Dungeon Tools">
+        NDT:AddPatrolWaypointAtCursorPosition()
     </Binding>
 </Bindings>

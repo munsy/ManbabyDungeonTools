@@ -1,6 +1,6 @@
 ## NomadicDungeonTools
 
-This is a fork of ManbabyDungeonTools, which itself is/was a fork of MythicDungeonTools, which was originally called MethodDungeonTools until Josh the Rapist inadvertently forced nnogie to change the name. I changed the name from 'Manbaby' not because the rename isn't good (it's great <3 <3 <3), or because I want credit for adding my own stuff to it, but simply because I'm afraid that if Josh finds out about it he'll try to touch the addon in its naughty places.
+This is a fork of ManbabyDungeonTools, which itself is/was a fork of MythicDungeonTools, which was originally called MethodDungeonTools until Josh the Rapist inadvertently forced nnogie to change the name. I changed the name from 'Nomadic' not because the rename isn't good (it's great <3 <3 <3), or because I want credit for adding my own stuff to it, but simply because I'm afraid that if Josh finds out about it he'll try to touch the addon in its naughty places.
 
 ## Features
 

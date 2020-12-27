@@ -132,7 +132,7 @@ local function filterFunc(_, event, msg, player, l, cs, t, flag, channelId, ...)
     local remaining = msg
     local done
     repeat
-        local start, finish, characterName, displayName = remaining:find("%[ManbabyDungeonTools: ([^%s]+) %- ([^%]]+)%]")
+        local start, finish, characterName, displayName = remaining:find("%[NomadicDungeonTools: ([^%s]+) %- ([^%]]+)%]")
         local startLive, finishLive, characterNameLive, displayNameLive = remaining:find("%[NDTLive: ([^%s]+) %- ([^%]]+)%]")
         if(characterName and displayName) then
             characterName = characterName:gsub("|c[Ff][Ff]......", ""):gsub("|r", "")
@@ -633,7 +633,7 @@ local function displaySendingProgress(userArgs,bytesSent,bytesToSend)
         NDT.main_frame.SendingStatusBar:Hide()
         --output chat link
         if not silent then
-            local prefix = "[ManbabyDungeonTools: "
+            local prefix = "[NomadicDungeonTools: "
             local dungeon = NDT:GetDungeonName(preset.value.currentDungeonIdx)
             local presetName = preset.text
             local name, realm = UnitFullName("player")

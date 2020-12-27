@@ -1,5 +1,3 @@
--- Made by Nnoggie, 2017-2020
--- Extended and refactored by Munsy. Fuck you Nnoggie :-)
 local AddonName, NDT = ...
 local L = NDT.L
 local mainFrameStrata = "HIGH"
@@ -18,16 +16,16 @@ NDT.BackdropColor = { 0.058823399245739, 0.058823399245739, 0.058823399245739, 0
 local AceGUI = LibStub("AceGUI-3.0")
 local db
 local icon = LibStub("LibDBIcon-1.0")
-local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("ManbabyDungeonTools", {
+local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("NomadicDungeonTools", {
 	type = "data source",
-	text = "Manbaby Dungeon Tools",
+	text = "Nomadic Dungeon Tools",
 	icon = "Interface\\ICONS\\inv_relics_hourglass",
 	OnClick = function(button,buttonPressed)
 		if buttonPressed == "RightButton" then
 			if db.minimap.lock then
-				icon:Unlock("ManbabyDungeonTools")
+				icon:Unlock("NomadicDungeonTools")
 			else
-				icon:Lock("ManbabyDungeonTools")
+				icon:Lock("NomadicDungeonTools")
 			end
 		else
 			NDT:ShowInterface()
@@ -41,15 +39,15 @@ local LDB = LibStub("LibDataBroker-1.1"):NewDataObject("ManbabyDungeonTools", {
 	end,
 })
 
-SLASH_MANBABYDUNGEONTOOLS1 = "/mplus"
-SLASH_MANBABYDUNGEONTOOLS2 = "/ndt"
-SLASH_MANBABYDUNGEONTOOLS3 = "/nomadicdungeontools"
+SLASH_NomadicDUNGEONTOOLS1 = "/mplus"
+SLASH_NomadicDUNGEONTOOLS2 = "/ndt"
+SLASH_NomadicDUNGEONTOOLS3 = "/nomadicdungeontools"
 
 BINDING_NAME_NDTTOGGLE = L["Toggle Window"]
 BINDING_NAME_NDTNPC = L["New NPC at Cursor Position"]
 BINDING_NAME_NDTWAYPOINT = L["New Patrol Waypoint at Cursor Position"]
 
-function SlashCmdList.MANBABYDUNGEONTOOLS(cmd, editbox)
+function SlashCmdList.NomadicDUNGEONTOOLS(cmd, editbox)
 	local rqst, arg = strsplit(' ', cmd)
 	if rqst == "devmode" then
 		NDT:ToggleDevMode()
@@ -143,11 +141,11 @@ do
     end)
 
     function NDT.ADDON_LOADED(self, addon)
-        if addon == "ManbabyDungeonTools" then
-			db = LibStub("AceDB-3.0"):New("ManbabyDungeonToolsDB", defaultSavedVars).global
-			icon:Register("ManbabyDungeonTools", LDB, db.minimap)
+        if addon == "NomadicDungeonTools" then
+			db = LibStub("AceDB-3.0"):New("NomadicDungeonToolsDB", defaultSavedVars).global
+			icon:Register("NomadicDungeonTools", LDB, db.minimap)
 			if not db.minimap.hide then
-				icon:Show("ManbabyDungeonTools")
+				icon:Show("NomadicDungeonTools")
 			end
 
             --if db.dataCollectionActive then NDT.DataCollection:Init() end
@@ -1020,7 +1018,7 @@ function NDT:IsFrameOffScreen()
 end
 
 local bottomTips = {
-    [1] = L["He's a Manbaby"],
+    [1] = L["https://thenomadguild.com"],
     [2] = L["Hold CTRL to single-select enemies."],
     [3] = L["Hold SHIFT to create a new pull while selecting enemies."],
     [4] = L["Hold SHIFT to delete all presets with the delete preset button."],
@@ -1061,7 +1059,7 @@ function NDT:MakeTopBottomTextures(frame)
 		frame.topPanelString:SetJustifyV("CENTER")
 		--frame.topPanelString:SetWidth(600)
 		frame.topPanelString:SetHeight(20)
-		frame.topPanelString:SetText("Manbaby Dungeon Tools")
+		frame.topPanelString:SetText("Nomadic Dungeon Tools")
 		frame.topPanelString:ClearAllPoints()
 		frame.topPanelString:SetPoint("CENTER", frame.topPanel, "CENTER", 10, 0)
 		frame.topPanelString:Show()
@@ -1491,16 +1489,16 @@ function NDT:MakeSidePanel(frame)
         if value == true then
             frame.toggleForceColorBlindMode:SetDisabled(false)
             NDT:ColorAllPulls()
-            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\ManbabyDungeonTools\\Textures\\helpIconRnbw")
+            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\NomadicDungeonTools\\Textures\\helpIconRnbw")
         else
             frame.toggleForceColorBlindMode:SetDisabled(true)
-            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\ManbabyDungeonTools\\Textures\\helpIconGrey")
+            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\NomadicDungeonTools\\Textures\\helpIconGrey")
         end
 	end)
     --AutomaticColorsCogwheel
     frame.AutomaticColorsCogwheel = AceGUI:Create("Icon")
     local colorCogwheel = frame.AutomaticColorsCogwheel
-    colorCogwheel:SetImage("Interface\\AddOns\\ManbabyDungeonTools\\Textures\\helpIconRnbw")
+    colorCogwheel:SetImage("Interface\\AddOns\\NomadicDungeonTools\\Textures\\helpIconRnbw")
     colorCogwheel:SetImageSize(25,25)
     colorCogwheel:SetWidth(35)
     colorCogwheel:SetCallback("OnEnter",function(...)
@@ -3636,10 +3634,10 @@ function NDT:MakeAutomaticColorsFrame(frame)
             frame.toggleForceColorBlindMode:SetDisabled(false)
             NDT:ColorAllPulls()
             NDT:DrawAllHulls()
-            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\ManbabyDungeonTools\\Textures\\helpIconRnbw")
+            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\NomadicDungeonTools\\Textures\\helpIconRnbw")
         else
             frame.toggleForceColorBlindMode:SetDisabled(true)
-            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\ManbabyDungeonTools\\Textures\\helpIconGrey")
+            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\NomadicDungeonTools\\Textures\\helpIconGrey")
         end
 	end)
     frame.automaticColorsFrame:AddChild(frame.AutomaticColorsCheck)
@@ -3683,7 +3681,7 @@ function NDT:MakeAutomaticColorsFrame(frame)
             db.colorPaletteInfo.autoColoring = true
             frame.AutomaticColorsCheck:SetValue(db.colorPaletteInfo.autoColoring)
             frame.AutomaticColorsCheckSidePanel:SetValue(db.colorPaletteInfo.autoColoring)
-            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\ManbabyDungeonTools\\Textures\\helpIconRnbw")
+            NDT.main_frame.AutomaticColorsCogwheel:SetImage("Interface\\AddOns\\NomadicDungeonTools\\Textures\\helpIconRnbw")
             frame.toggleForceColorBlindMode:SetDisabled(false)
         end
         NDT:SetPresetColorPaletteInfo()
@@ -4393,7 +4391,7 @@ end
 ---Register the options of the addon to the blizzard options
 function NDT:RegisterOptions()
     NDT.blizzardOptionsMenuTable = {
-        name = "Manbaby Dungeon Tools",
+        name = "Nomadic Dungeon Tools",
         type = 'group',
         args = {
             --[[
@@ -4429,7 +4427,7 @@ function NDT:RegisterOptions()
                 set = function(_, newValue)
                     db.minimap.hide = not newValue
                     if not db.minimap.hide then
-                        icon:Show("ManbabyDungeonTools")
+                        icon:Show("NomadicDungeonTools")
                     else
                         icon:Hide("ManbayDungeonTools")
                     end
@@ -4475,8 +4473,8 @@ function NDT:RegisterOptions()
             },
         }
     }
-	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("ManbabyDungeonTools", NDT.blizzardOptionsMenuTable)
-	self.blizzardOptionsMenu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("ManbabyDungeonTools", "ManbabyDungeonTools")
+	LibStub("AceConfigRegistry-3.0"):RegisterOptionsTable("NomadicDungeonTools", NDT.blizzardOptionsMenuTable)
+	self.blizzardOptionsMenu = LibStub("AceConfigDialog-3.0"):AddToBlizOptions("NomadicDungeonTools", "NomadicDungeonTools")
 end
 
 function NDT:Round(number, decimals)
@@ -4940,7 +4938,7 @@ function NDT:ResetDataCache()
 end
 
 function NDT:HardReset()
-    ManbabyDungeonToolsDB = nil
+    NomadicDungeonToolsDB = nil
     ReloadUI()
 end
 
