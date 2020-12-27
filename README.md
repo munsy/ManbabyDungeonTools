@@ -1,6 +1,6 @@
-Yeah this is just nnogie's addon yoinked under a GPL 2 license because he's a ginoromous man baby
+This is a fork of ManbabyDungeonTools, which itself is/was a fork of MythicDungeonTools, which was originally called MethodDungeonTools until Josh the Rapist forced nnogie to change the name. I changed the name from Manbaby not because the name isn't good, or because I want credit, but because I'm afraid that if Josh finds out he'll try to touch the addon in its naughty places.
 
-## Manbaby Dungeon Tools
+## NomadicDungeonTools
 
 ![Main Window](https://i.imgur.com/HFzS0Xl.jpg 'x')
 
@@ -8,7 +8,7 @@ Manbaby Dungeon Tools is a Mythic+ Dungeon Planner AddOn which helps you perfect
 
 ## Features
 
-- Maps for all Shadowlands+BFA+Legion dungeons
+- Maps for all Shadowlands dungeons
 - NPC positions for all dungeons
 - Patrol paths for all patroling NPCs
 - Enemy forces for every npc and dungeon
@@ -22,7 +22,7 @@ Manbaby Dungeon Tools is a Mythic+ Dungeon Planner AddOn which helps you perfect
 
 ## Slash Commands
 
-- /manbabydungeontools
-- /mdt
+- /nomadicdungeontools
+- /ndt
 
 Download on curseforge: https://www.curseforge.com/wow/addons/mythic-dungeon-tools XD XD XD XD XD
