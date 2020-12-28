@@ -4,7 +4,7 @@ This is a fork of ManbabyDungeonTools, which itself is/was a fork of MythicDunge
 
 ## Features
 
-- Not managed by a raging narcissist who will spontaneously throw a fit and move the addon behind a paywall
+- Not managed by [a raging narcissist who will spontaneously throw a fit and move the addon behind a paywall](https://streamable.com/86awsk)
 - Maps for all Shadowlands dungeons
 - NPC positions for all dungeons
 - Patrol paths for all patroling NPCs
