@@ -1,10 +1,9 @@
 ## NomadicDungeonTools
 
-This is a fork of ManbabyDungeonTools, which itself is/was a fork of MythicDungeonTools, which was originally called MethodDungeonTools until Josh the Rapist inadvertently forced nnogie to change the name. I changed the name from 'Nomadic' not because the rename isn't good (it's great <3 <3 <3), or because I want credit for adding my own stuff to it, but simply because I'm afraid that if Josh finds out about it he'll try to touch the addon in its naughty places.
+Forked from [DungeonTools](https://github.com/LetsTimeIt/DungeonTools) which was forked from (https://github.com/Nnoggie/MythicDungeonTools). MDT **used** to be completely free but [one day the author decided that not only is it completely unreasonable for people to ask him to update his addon, but that doing so is 'harassment' and the only way to stop being 'harassed' is to put the data behind a paywall](https://streamable.com/86awsk). The community as a whole shouldn't be denied access to what was otherwise a good service on the whims of a petulant child, so the goal here will be to maintain what was already created for us, and to provide updates to the addon when appropriate.
 
 ## Features
 
-- Not managed by [a raging narcissist who will spontaneously throw a fit and move the addon behind a paywall](https://streamable.com/86awsk)
 - Maps for all Shadowlands dungeons
 - NPC positions for all dungeons
 - Patrol paths for all patroling NPCs
@@ -23,4 +22,4 @@ This is a fork of ManbabyDungeonTools, which itself is/was a fork of MythicDunge
 - /ndt
 
 ## License
-GPL 2.0 which means if I EVER decide to be a fucking douchebag and put the mod behind a paywall, you should promptly fork this code and make your own rehost of it. You should also make sure Blizzard knows about my douchebagginess so I'll get a C&D sent to me.
+GPL 2.0
